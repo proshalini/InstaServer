@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add comments</title>
+    <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+    <form method="post" action="/posts/<%=post.username%>" class="postCon">
+        <h3>post id:<%=post.id%></h3>
+        <h3>username:@<%=post.username%></h3>
+        <img  src="<%=post.pic%>" alt="user image"/><br/>
+        <textarea name="comments" placeholder="Enter your comment"></textarea><br/>
+        <button class="new">Post Comment</button>
+    </form>
+</body>
+</html>
