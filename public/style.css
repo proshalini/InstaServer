@@ -82,10 +82,12 @@ body{
 #commList {
     list-style: none;
     text-align: left;
+    line-height: 0%;
 }
 
 #commList li{
     margin-top: 0;
     padding-top: 0;
+    line-height: 0ch;
 }
 
