@@ -3,7 +3,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json()); // Add this to support JSON payloads
+//app.use(express.json());  Add this to support JSON payloads
 
 const path = require("path");
 app.set("views", path.join(__dirname, "/views"));
