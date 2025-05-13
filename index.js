@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // Add this to support JSON payloads
 
 const path = require("path");
 app.set("views", path.join(__dirname, "/views"));
@@ -9,60 +12,60 @@ app.use('/assets', express.static(__dirname + '/assets'));
 
 app.set("view engine", "ejs");
 
-app.use(express.urlencoded({ extended: true }));
-
 const { v4: uuidv4 } = require("uuid");
 
 const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
 
 const multer = require('multer');
-const upload = multer({ dest: 'assets/' });
+const storage = multer.diskStorage({
+    destination: "./uploads/",
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Keep file extension
+    }
+});
+
+const upload = multer({ storage: storage });
+app.use("/uploads", express.static("uploads")); // Ensure images can be served
+
+
 
 let posts = [
     {
         id: uuidv4(),
         username: "singhshalini_18",
-        pic: "/assets/p1.png",
+        pic: "/assets/p1.jpg",
         caption: "feeling candid :)",
-        likes: "120",
         comments: [
             "preety",
         ],
-        share: "3",
     },
     {
         id: uuidv4(),
         username: "singhshambhabi_13",
-        pic: "/assets/p2.png",
+        pic: "/assets/p2.jpg",
         caption: "minimalist <3",
-        likes: "120",
         comments: [
             "preety",
         ],
-        share: "3",
     },
     {
         id: uuidv4(),
         username: "singhss.10",
-        pic: "/assets/p3.png",
+        pic: "/assets/p3.jpg",
         caption: "blinking the smile :)",
-        likes: "120",
         comments: [
             "preety",
         ],
-        share: "3",
     },
     {
         id: uuidv4(),
         username: "ss.12",
-        pic: "/assets/p4.png",
+        pic: "/assets/p4.jpg",
         caption: "adiye paani da rang chadha k aa $$",
-        likes: "120",
         comments: [
             "preety",
         ],
-        share: "3",
     }
 ]
 
@@ -100,22 +103,28 @@ app.get("/posts/:id/edit", (req, res) => {
     res.render("edit", { post });
 })
 
-app.post("/posts", (req, res) => {
+app.post("/posts", upload.single("pic"), (req, res) => {
     let id = uuidv4();
-    let { username,pic, caption } = req.body;
-    let imagePath = pic.startsWith("/assets/") ? pic : `/assets/${pic}`;
-    posts.push({
+    let { username, caption } = req.body; // Ensure req.body is parsed properly
+    let imagePath = req.file ? `/uploads/${req.file.filename}` : "/assets/default.jpg"; // Fallback for missing image
+
+    if (!username || !caption) {
+        return res.status(400).send("Username and caption are required!");
+    }
+
+    posts.unshift({
         id,
         username,
-        pic:imagePath,
+        pic: imagePath,
         caption,
-        likes: 0,       // Initialize likes to 0
-        comments: [],    // Initialize comments as an empty array
-        shares: 0        // Initialize shares to 0
+        likes: 0,
+        comments: [],
+        shares: 0
     });
 
     res.redirect("/posts");
 });
+
 
 
 app.delete("/posts/:id", (req, res) => {

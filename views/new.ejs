@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="/style.css"/>
 </head>
 <body>
-    <form method="post" action="/posts" class="create">
+    <form method="post" action="/posts" class="create" enctype="multipart/form-data">
         <input placeholder="enter username" name="username"/>
-        <input type="file" name="pic" accept="image/*">
+        <input type="file" name="pic">
         <textarea name="caption" placeholder="enter the caption"></textarea>
         <button class="new">post</button>
     </form>
