@@ -82,12 +82,12 @@ body{
 #commList {
     list-style: none;
     text-align: left;
-    line-height: 0%;
+    padding-left: 0; /* Removes extra space from default list styling */
 }
 
-#commList li{
-    margin-top: 0;
-    padding-top: 0;
-    line-height: 0ch;
+#commList li {
+    margin: 5px 0; /* Adds spacing between list items */
+    line-height: 24px; /* Increases readability */
 }
+
 
