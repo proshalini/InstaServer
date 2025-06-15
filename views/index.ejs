@@ -12,21 +12,21 @@
 
 <body>
     <h1>Instagram</h1>
-    <a href="http://localhost:8080/posts/new" class="submit">Create post</a>
+    <a href="/posts/new" class="submit">Create post</a>
     <%for(post of posts){%>
         <div class="postCon">
             <h3 class="sec">@<%=post.username%>
-                    <a href="http://localhost:8080/posts/<%=post.id%>/edit" class="icon">
+                    <a href="/posts/<%=post.id%>/edit" class="icon">
                         <img src="/assets/edit.png" alt="edit option" />
                     </a>
             </h3>
 
-            <a href="http://localhost:8080/posts/<%=post.id%>"><img src="<%=post.pic%>" alt="image uploaded"  id="image"/></a>
+            <a href="/posts/<%=post.id%>"><img src="<%=post.pic%>" alt="image uploaded"  id="image"/></a>
             <br/>
            
             <h3 class="sec">
                 <%=post.caption%>
-                <a href="http://localhost:8080/posts/<%=post.username%>/opinion"><i class="fa-regular fa-comment"></i></a>
+                <a href="/posts/<%=post.username%>/opinion"><i class="fa-regular fa-comment"></i></a>
                <form method="post" action="/posts/<%=post.id%>?_method=DELETE"><button class="icon"><img src="/assets/del.png" alt="delete option" /></button></form>
             </h3>
             <hr>
